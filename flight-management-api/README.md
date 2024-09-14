@@ -22,64 +22,178 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Descrição
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Esta é uma API RESTful para gerenciamento de voos, construída com Nest.js e TypeORM, utilizando o PostgreSQL como banco de dados. A API permite criar, listar, atualizar e excluir voos, bem como validar as regras de negócio necessárias, como diferença mínima de tempo entre voos.
 
-## Project setup
+## Tecnologias Utilizadas
 
-```bash
-$ npm install
-```
+- Nest.js: Um framework para construir aplicações Node.js escaláveis e eficientes.
+- TypeORM: Um ORM para manipulação de banco de dados, usado aqui para integração com o PostgreSQL.
+- PostgreSQL: Banco de dados relacional para armazenamento de informações dos voos.
+- Node.js: Ambiente de execução para JavaScript no backend.
+- TypeScript: Linguagem principal utilizada na aplicação, fornecendo tipagem estática.
 
-## Compile and run the project
+## Requisitos
 
-```bash
-# development
-$ npm run start
+- Node.js (versão 14+)
+- npm (versão 6+)
+- PostgreSQL (versão 12+)
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
+## Configuração e Instalação
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+git clone https://github.com/seu-usuario/flight-management-api.git
+cd flight-management-api
 ```
 
-## Resources
+## Instalar as Dependências
 
-Check out a few resources that may come in handy when working with NestJS:
+```bash
+npm install
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## Configurar Banco de dados
 
-## Support
+```bash
+CREATE DATABASE flight_db;
+CREATE USER flight_user WITH PASSWORD '1502';
+GRANT ALL PRIVILEGES ON DATABASE flight_db TO flight_user;
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Configurar Variáveis de Ambiente
+```env
+DB_TYPE=postgres
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=flight_user
+DB_PASSWORD=1502
+DB_DATABASE=flight_db
+```
 
-## Stay in touch
+## Rodar Aplicação
+```bash
+npm run start:dev
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+<h1> Endpoints da API <h1>
 
-## License
+## Criando um Novo Voo
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+- URL: /flights
+- Método: POST
+- Corpo da Requisição (JSON):
+```JSON
+{
+  "origin": "São Paulo, BR",
+  "destination": "Rio de Janeiro, BR",
+  "date": "2024-09-15T14:30:00"
+}
+```
+- Resposta de Sucesso (201 Created):
+```JSON
+{
+  "id": 1,
+  "code": "A1B2C",
+  "origin": "São Paulo, BR",
+  "destination": "Rio de Janeiro, BR",
+  "date": "2024-09-15T14:30:00"
+}
+```
+## Listar todos os Voos
+
+- URL: /flights
+- Método: GET
+- Resposta de Sucesso (200 OK):
+
+```JSON
+[
+  {
+    "id": 1,
+    "code": "A1B2C",
+    "origin": "São Paulo, BR",
+    "destination": "Rio de Janeiro, BR",
+    "date": "2024-09-15T14:30:00"
+  }
+]
+```
+
+## Atualizar um Voo Existente
+
+- URL: /flights/:id
+- Método: PUT
+- Corpo da Requisição (JSON):
+```JSON
+{
+  "origin": "São Paulo, BR",
+  "destination": "Brasília, BR",
+  "date": "2024-09-16T10:00:00"
+}
+```
+- Resposta de Sucesso (200 OK):
+```JSON
+{
+  "id": 1,
+  "code": "A1B2C",
+  "origin": "São Paulo, BR",
+  "destination": "Brasília, BR",
+  "date": "2024-09-16T10:00:00"
+}
+```
+
+- URL: /flights/:id
+- Método: DELETE
+- Resposta de Sucesso (204 No Content): O voo é excluído com sucesso e não há conteúdo na resposta.
+
+## Regras de Negócios
+- 1. Diferença Mínima Entre Voos: Não podem existir dois voos com menos de 30 minutos de diferença entre eles.
+- 2. Voo Único por Destino e Dia: Não podem existir dois voos para o mesmo destino no mesmo dia.
+
+## Estrutura do Projeto
+
+```ruby
+flight-management-api/
+│
+├── src/
+│   ├── app.module.ts            # Módulo principal da aplicação
+│   ├── flight/
+│   │   ├── flight.module.ts     # Módulo de voos
+│   │   ├── flight.service.ts    # Lógica de negócios e interações com o banco de dados
+│   │   ├── flight.controller.ts # Definição dos endpoints da API
+│   │   ├── flight.entity.ts     # Definição da entidade Flight para o TypeORM
+│   ├── main.ts                  # Arquivo principal para iniciar a aplicação
+│
+├── .env                         # Arquivo de configuração do banco de dados
+├── package.json                 # Arquivo de dependências do projeto
+├── README.md                    # Documentação da API
+└── ...
+```
+
+
+## Comandos Úteis
+- Rodar Aplicação em modo de desinvolvimento:
+```bash
+npm run start:dev
+```
+- Build de Aplicações:
+```bash
+npm run build
+```
+- Rodar a Aplicação em Produção:
+```bash
+npm run start:prod
+```
+## Contribuindo
+
+- 1. Faça um fork do repositório.
+- 2. Crie uma nova branch para as suas alterações (git checkout -b minha-feature).
+- 3. Faça commit das suas alterações (git commit -am 'Adicionando nova feature').
+- 4. Faça push para a branch (git push origin minha-feature).
+- 5. Abra um Pull Request.
+
+- Autor - [Lucas Floriano da Silva](https://www.linkedin.com/in/lucas-floriano-da-silva/)
+- Instagram - [@lucas___floriano](https://www.instagram.com/lucas___floriano?igsh=emlxbDRhdWcwOXp1)
+
+## Licença
+
+Este projeto é distribuído sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
