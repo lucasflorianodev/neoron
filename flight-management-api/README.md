@@ -183,16 +183,6 @@ npm run build
 ```bash
 npm run start:prod
 ```
-## Contribuindo
-
-- 1. Faça um fork do repositório.
-- 2. Crie uma nova branch para as suas alterações (git checkout -b minha-feature).
-- 3. Faça commit das suas alterações (git commit -am 'Adicionando nova feature').
-- 4. Faça push para a branch (git push origin minha-feature).
-- 5. Abra um Pull Request.
-
-- Autor - [Lucas Floriano da Silva](https://www.linkedin.com/in/lucas-floriano-da-silva/)
-- Instagram - [@lucas___floriano](https://www.instagram.com/lucas___floriano?igsh=emlxbDRhdWcwOXp1)
 
 ## Licença
 
