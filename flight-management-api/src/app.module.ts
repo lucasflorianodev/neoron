@@ -1,9 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { FlightService } from './flight/flight.service';
-import { FlightController } from './flight/flight.controller';
 import { FlightModule } from './flight/flight.module';
 
 @Module({
@@ -16,7 +12,7 @@ import { FlightModule } from './flight/flight.module';
       password: '1502',
       database: 'flight_management',
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: false,
     }),
     FlightModule,
   ],
