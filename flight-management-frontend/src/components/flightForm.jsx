@@ -9,32 +9,32 @@ const FlightForm = ({ fetchFlights }) => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      await axios.post('http://localhost:5173/flights', {
+      await axios.post('http://localhost:3000/flights', {
         origin: values.origin,
         destination: values.destination,
         date: values.date.format('YYYY-MM-DD HH:mm:ss'),
       });
-      message.success('Voo criado com sucesso!');
+      message.success('Voo cadastrado com sucesso!');
       form.resetFields();
-      fetchFlights();
+      fetchFlights(); // Atualiza a lista de voos
     } catch (error) {
-      message.error('Erro ao criar voo: ' + error.response?.data?.message || error.message);
+      message.error('Erro ao cadastrar o voo: ' + error.response?.data?.message || error.message);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Form form={form} onFinish={onFinish} layout="vertical" style={{ marginBottom: '50px', padding: '10px'}}>
+    <Form form={form} onFinish={onFinish} layout="vertical" style={{ marginBottom: '20px' }}>
       <Form.Item
-        label="Cidade Origem"
+        label="Origem"
         name="origin"
         rules={[{ required: true, message: 'Por favor, insira a origem!' }]}
       >
         <Input />
       </Form.Item>
       <Form.Item
-        label="Cidade Destino"
+        label="Destino"
         name="destination"
         rules={[{ required: true, message: 'Por favor, insira o destino!' }]}
       >
@@ -49,7 +49,7 @@ const FlightForm = ({ fetchFlights }) => {
       </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit" loading={loading}>
-          Criar Voo
+          Cadastrar Voo
         </Button>
       </Form.Item>
     </Form>

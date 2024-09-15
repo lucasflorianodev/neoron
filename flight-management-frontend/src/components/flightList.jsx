@@ -9,7 +9,7 @@ const FlightList = () => {
   const fetchFlights = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:5173/flights');
+      const response = await axios.get('http://localhost:3000/flights');
       setFlights(response.data);
     } catch (error) {
       message.error('Erro ao carregar os voos: ' + error.message);
