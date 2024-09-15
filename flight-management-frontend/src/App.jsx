@@ -22,7 +22,7 @@ const App = () => {
           Gerenciamento de Voos
         </Title>
       </Header>
-      <Content style={{ padding: '105px 730px' }}>
+      <Content style={{ padding: '105px 752px' }}>
         <div className="site-layout-content">
           <FlightForm onFlightCreated={handleFlightCreated} />
           <FlightList flights={flights} /> {}
