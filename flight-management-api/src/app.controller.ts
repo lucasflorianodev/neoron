@@ -4,6 +4,9 @@ import { Flight } from './flight/flight.entity';
 
 @Controller('flights')
 export class AppController {
+  getHello(): any {
+    throw new Error('Method not implemented.');
+  }
   constructor(private readonly flightService: FlightService) {}
 
   @Post()
