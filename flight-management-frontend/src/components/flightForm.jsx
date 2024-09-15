@@ -2,23 +2,32 @@ import React, { useState } from 'react';
 import { Form, Input, DatePicker, Button, message } from 'antd';
 import axios from 'axios';
 
-const FlightForm = ({ fetchFlights }) => {
+const FlightForm = ({ onFlightCreated }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      await axios.post('http://localhost:3000/flights', {
+      // Envia os dados para a API usando uma solicitação POST
+      const response = await axios.post('http://localhost:3000/flights', {
         origin: values.origin,
         destination: values.destination,
         date: values.date.format('YYYY-MM-DD HH:mm:ss'),
       });
+      
+      // Exibe uma mensagem de sucesso
       message.success('Voo cadastrado com sucesso!');
+
+      // Limpa o formulário
       form.resetFields();
-      fetchFlights(); // Atualiza a lista de voos
+
+      // Chama o callback para atualizar a lista de voos
+      if (onFlightCreated) {
+        onFlightCreated(response.data); // Passa o voo criado de volta ao componente pai
+      }
     } catch (error) {
-      message.error('Erro ao cadastrar o voo: ' + error.response?.data?.message || error.message);
+      message.error('Erro ao cadastrar o voo: ' + (error.response?.data?.message || error.message));
     } finally {
       setLoading(false);
     }
@@ -36,7 +45,7 @@ const FlightForm = ({ fetchFlights }) => {
       <Form.Item
         label="Destino"
         name="destination"
-        rules={[{ required: true, message: 'Por favor, insira o destino!' }]}
+        rules={[{ required: true, message: 'Por favor, insira o destino.' }]}
       >
         <Input />
       </Form.Item>
@@ -49,7 +58,10 @@ const FlightForm = ({ fetchFlights }) => {
       </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit" loading={loading}>
-          Cadastrar Voo
+          Cadastrar novo voo
+        </Button>
+        <Button type="primary" htmlType="submit" loading={loading} style={{ marginLeft: '50px' }}>
+          Editar voo cadastrado
         </Button>
       </Form.Item>
     </Form>

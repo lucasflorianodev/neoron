@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Layout, Typography } from 'antd';
 import FlightForm from './components/flightForm';
-import FlightList from './components/flightList';
+import FlightList from './components/FlightList';
 import './App.css';
 
 const { Header, Content, Footer } = Layout;
 const { Title } = Typography;
 
 const App = () => {
+  const [flights, setFlights] = useState([]);
+
+  // Função chamada quando um voo é criado
+  const handleFlightCreated = (newFlight) => {
+    setFlights([...flights, newFlight]); // Adiciona o novo voo à lista de voos
+  };
+
   return (
     <Layout className="layout">
       <Header style={{ color: 'white', textAlign: 'center' }}>
@@ -17,8 +24,8 @@ const App = () => {
       </Header>
       <Content style={{ padding: '0 50px' }}>
         <div className="site-layout-content">
-          <FlightForm />
-          <FlightList />
+          <FlightForm onFlightCreated={handleFlightCreated} />
+          <FlightList flights={flights} /> {}
         </div>
       </Content>
       <Footer style={{ textAlign: 'center' }}>

@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
 import { FlightService } from './flight/flight.service';
 import { Flight } from './flight/flight.entity';
-
 @Controller('flights')
 export class AppController {
   getHello(): any {
