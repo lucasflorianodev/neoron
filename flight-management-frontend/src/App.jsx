@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layout, Typography } from 'antd';
+import { Flex, Layout, Typography } from 'antd';
 import FlightForm from './components/flightForm';
 import FlightList from './components/FlightList';
 import './App.css';
@@ -18,17 +18,17 @@ const App = () => {
   return (
     <Layout className="layout">
       <Header style={{ color: 'white', textAlign: 'center' }}>
-        <Title level={2} style={{ color: 'white', margin: 0 }}>
+        <Title level={2} style={{ color: 'white', margin: 10 }}>
           Gerenciamento de Voos
         </Title>
       </Header>
-      <Content style={{ padding: '0 50px' }}>
+      <Content style={{ padding: '105px 730px' }}>
         <div className="site-layout-content">
           <FlightForm onFlightCreated={handleFlightCreated} />
           <FlightList flights={flights} /> {}
         </div>
       </Content>
-      <Footer style={{ textAlign: 'center' }}>
+      <Footer style={{ textAlign: 'center', display:Flex}}>
         Flight Management ©2024 - Todos os direitos reservados.
       </Footer>
     </Layout>

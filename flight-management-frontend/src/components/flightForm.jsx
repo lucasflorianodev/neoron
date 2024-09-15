@@ -60,7 +60,7 @@ const FlightForm = ({ onFlightCreated }) => {
         <Button type="primary" htmlType="submit" loading={loading}>
           Cadastrar novo voo
         </Button>
-        <Button type="primary" htmlType="submit" loading={loading} style={{ marginLeft: '50px' }}>
+        <Button type="primary" htmlType="submit" loading={loading} style={{ marginLeft: '7px' }}>
           Editar voo cadastrado
         </Button>
       </Form.Item>
