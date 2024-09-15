@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FlightModule } from './flight/flight.module';
+import { AppController } from './app.controller';
+import { FlightService } from './flight/flight.service';
+import { Flight } from './flight/flight.entity';
 
 @Module({
   imports: [
@@ -14,7 +17,9 @@ import { FlightModule } from './flight/flight.module';
       autoLoadEntities: true,
       synchronize: false,
     }),
-    FlightModule,
+    TypeOrmModule.forFeature([Flight]), FlightModule,
   ],
+  controllers: [AppController],
+  providers: [FlightService],
 })
 export class AppModule {}

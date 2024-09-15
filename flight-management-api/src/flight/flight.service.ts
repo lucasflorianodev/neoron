@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Flight } from './flight.entity';
@@ -9,9 +9,8 @@ export class FlightService {
     @InjectRepository(Flight)
     private flightRepository: Repository<Flight>,
   ) {}
-
+// Realização de CRUD na API //
   async createFlight(flightData: Partial<Flight>): Promise<Flight> {
-    flightData.code = this.generateRandomCode();
     const flight = this.flightRepository.create(flightData);
     return this.flightRepository.save(flight);
   }
@@ -20,7 +19,23 @@ export class FlightService {
     return this.flightRepository.find();
   }
 
-  private generateRandomCode(): string {
-    return Math.random().toString(36).substr(2, 5).toUpperCase();
+  async findOne(id: number): Promise<Flight> {
+    const flight = await this.flightRepository.findOneBy({ id });
+    if (!flight) {
+      throw new NotFoundException(`Voo de ID ${id} não encontrado, Verifique se o ID está correto e tente novamente.`);
+    }
+    return flight;
+  }
+
+  async update(id: number, flightData: Partial<Flight>): Promise<Flight> {
+    await this.flightRepository.update(id, flightData);
+    return this.findOne(id);
+  }
+
+  async delete(id: number): Promise<void> {
+    const result = await this.flightRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Voo de ID ${id} não encontrado, Verifique se o ID está correto e tente novamente.`);
+    }
   }
 }
