@@ -19,7 +19,7 @@ const App = () => {
     <Layout className="layout">
       <Header style={{ color: 'white', textAlign: 'center' }}>
         <Title level={2} style={{ color: 'white', margin: 10 }}>
-          Gerenciamento de Voos
+          FlySystem Management
         </Title>
       </Header>
       <Content style={{ padding: '105px 752px' }}>
@@ -29,7 +29,7 @@ const App = () => {
         </div>
       </Content>
       <Footer style={{ textAlign: 'center', display:Flex}}>
-        Flight Management ©2024 - Todos os direitos reservados.
+        lucasflorianodev ©2024 - Todos os direitos reservados.
       </Footer>
     </Layout>
   );

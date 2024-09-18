@@ -5,26 +5,21 @@ import axios from 'axios';
 const FlightForm = ({ onFlightCreated }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      // Envia os dados para a API usando uma solicitação POST
-      const response = await axios.post('http://localhost:3000/flights', {
+      const response = await axios.post('http://127.0.0.1:3000/:flights', {
         origin: values.origin,
         destination: values.destination,
         date: values.date.format('YYYY-MM-DD HH:mm:ss'),
       });
       
-      // Exibe uma mensagem de sucesso
-      message.success('Voo cadastrado com sucesso!');
+      alert('Voo cadastrado com sucesso!');
 
-      // Limpa o formulário
       form.resetFields();
 
-      // Chama o callback para atualizar a lista de voos
       if (onFlightCreated) {
-        onFlightCreated(response.data); // Passa o voo criado de volta ao componente pai
+        onFlightCreated(response.data);
       }
     } catch (error) {
       message.error('Erro ao cadastrar o voo: ' + (error.response?.data?.message || error.message));
@@ -57,10 +52,10 @@ const FlightForm = ({ onFlightCreated }) => {
         <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading}>
+        <Button type="primary" htmlType="submit" loading={loading} style={{ marginLeft: '0px', margin:'5px 75px' }}>
           Cadastrar novo voo
         </Button>
-        <Button type="primary" htmlType="submit" loading={loading} style={{ marginLeft: '7px' }}>
+        <Button type="primary" htmlType="submit" loading={loading} style={{ marginLeft: '0px', margin:'5px 70px' }}>
           Editar voo cadastrado
         </Button>
       </Form.Item>
